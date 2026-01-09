@@ -3,7 +3,7 @@
   "short_name": "JCUnblocked",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#fb2651",
+  "background_color": "#182a69",
   "theme_color": "#182a69",
   "icons": [
     {
@@ -13,6 +13,7 @@
     }
   ]
 }
+
 
 
 
