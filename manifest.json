@@ -1,6 +1,6 @@
 {
-  "name": "gn-math",
-  "short_name": "gnmath",
+  "name": "JC Unblocked",
+  "short_name": "JCUnblocked",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#fb2651",
@@ -13,3 +13,4 @@
     }
   ]
 }
+
