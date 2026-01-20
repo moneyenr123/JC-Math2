@@ -81,7 +81,7 @@ async function listZones() {
                             popup.style.boxShadow = "0px 0px 10px rgba(0,0,0,0.1)";
                             popup.style.fontFamily = "Arial, sans-serif";
                             
-                            popup.innerHTML = `Play more games at <a href="https://gn-math.github.io" target="_blank" style="color:#004085; font-weight:bold;">https://gn-math.github.io</a>!`;
+                            popup.innerHTML = `Play more games at <a href="Sites.google.com/view/jcunblockedio" target="_blank" style="color:#004085; font-weight:bold;">sites.google.com/view/jcunblockedio</a>!`;
                             
                             const closeBtn = document.createElement("button");
                             closeBtn.innerText = "?";
@@ -732,4 +732,5 @@ XMLHttpRequest.prototype.open = function (method, url) {
 
 HTMLCanvasElement.prototype.toDataURL = function (...args) {
     return "";
+
 };
