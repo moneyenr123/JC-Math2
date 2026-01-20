@@ -2,16 +2,30 @@
 <html lang="en">
     <head>
         <base href="https://cdn.jsdelivr.net/gh/gn-math/gn-math-DONTDMCA@main/">
-<style>
-/* Block GN‑Math Suggest Games + Discord */
-a[href*="forms.gle"],
-a[href*="suggest"],
-a[href*="feedback"],
-a[href="https://discord.gg/NAFw4ykZ7n"],
-a[href*="NAFw4ykZ7n"] {
-    display: none !important;
-}
-</style>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    // Remove Suggest Games (Google Form, feedback, etc.)
+    document.querySelectorAll(
+        'a[href*="forms.gle"], a[href*="suggest"], a[href*="feedback"]'
+    ).forEach(function(el) {
+        el.remove();
+    });
+
+    // Remove GN-Math Discord link (exact + partial match)
+    document.querySelectorAll(
+        'a[href="https://discord.gg/NAFw4ykZ7n"], a[href*="NAFw4ykZ7n"]'
+    ).forEach(function(el) {
+        el.remove();
+    });
+
+    // Remove Discord logo that links to their Discord
+    document.querySelectorAll('a[href*="discord.gg/NAFw4ykZ7n"] img')
+        .forEach(function(img) {
+            img.remove();
+        });
+});
+</script>
+
 
 
     <link rel="icon" type="image/png" href="Icon.png">
