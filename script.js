@@ -636,7 +636,7 @@ function loadPrivacy() {
     popupBody.innerHTML = `
         <div style="max-height: 60vh; overflow-y: auto;">
             <h2>PRIVACY POLICY</h2>
-            <p>Last updated April 17, 2025</p>
+            <p>
             <p>This Privacy Notice for JC Unblocked ("we," "us," or "our"), describes how and why we might access, collect, store, use, and/or share ("process") your personal information when you use our services ("Services"), including when you:</p>
             <ul>
                 <li>Visit our website at <a href="sites.google.com/view/jcunblockedio">sites.google.com/view/jcunblockedio/a>, or any website of ours that links to this Privacy Notice</li>
@@ -674,7 +674,7 @@ function loadDMCA() {
     popupBody.innerHTML = `
         <div class="dmca-content">
             <p>
-                If you own or developed a game that is on <strong>gn-math</strong> 
+                If you own or developed a game that is on <strong>Jc Unblocked</strong> 
                 and would like it removed, please do one of the following:
             </p>
             <ol>
@@ -727,4 +727,5 @@ HTMLCanvasElement.prototype.toDataURL = function (...args) {
     return "";
 
 };
+
 
