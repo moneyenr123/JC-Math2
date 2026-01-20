@@ -624,8 +624,8 @@ function showContact() {
     document.getElementById('popupTitle').textContent = "Contact";
     const popupBody = document.getElementById('popupBody');
     popupBody.innerHTML = `
-    <p>Discord: https://discord.gg/NAFw4ykZ7n</p>
-    <p>Email: gn.math.business@gmail.com</p>`;
+    <p>Discord: https://discord.gg/aEfAs6Br</p>
+    <p>Email: Familylanzcreations@gmail.com</p>`;
     popupBody.contentEditable = false;
     document.getElementById('popupOverlay').style.display = "flex";
 }
@@ -727,5 +727,6 @@ HTMLCanvasElement.prototype.toDataURL = function (...args) {
     return "";
 
 };
+
 
 
