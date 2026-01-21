@@ -38,7 +38,7 @@
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#fb2651">
 </head>
-<script>
+    <script>
 /* JSON sources */
 const SOURCES = [
   "https://cdn.jsdelivr.net/gh/gn-math/gn-math-DONTDMCA@main/games.json",
@@ -54,38 +54,101 @@ async function fetchList(url) {
 
     return data.map(g => ({
       name: g.name || g.title || g.slug || "Unknown",
-      icon: g.icon || "",
-      url: g.url || ""
+      icon: g.icon || g.thumbnail || g.img || "",
+      url: g.url || g.play_url || g.href || g.link || ""
     })).filter(g => g.url);
   } catch {
     return [];
   }
 }
 
-/* Auto-find an icon for a game */
-async function findIcon(name, url) {
-  const cleanName = name.replace(/[^a-z0-9]/gi, " ").trim();
-
-  // 1. Try your own icon folder
-  const localIcon = `https://moneyenr123.github.io/JC-Unblocked-GameHub/icons/${cleanName}.png`;
-
-  // 2. Try favicon of the domain
+/* SCRAPE GitLab GitHubGames */
+async function fetchGitLabGames() {
   try {
-    const domain = new URL(url).hostname;
-    const favicon = `https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
-    return favicon;
-  } catch {}
+    const res = await fetch("https://githubgames.gitlab.io/game/", { mode: "cors" });
+    const html = await res.text();
+    const doc = new DOMParser().parseFromString(html, "text/html");
 
-  // 3. DuckDuckGo image search API
-  const ddg = `https://api.duckduckgo.com/?q=${encodeURIComponent(cleanName + " game icon")}&format=json&pretty=1`;
+    return [...doc.querySelectorAll("a")]
+      .map(a => ({
+        name: a.textContent.trim(),
+        url: a.href,
+        icon: ""
+      }))
+      .filter(g => g.url.includes("githubgames.gitlab.io"));
+  } catch {
+    return [];
+  }
+}
+
+/* SCRAPE PizzaEdition.win */
+async function fetchPizzaEditionGames() {
   try {
-    const res = await fetch(ddg);
-    const data = await res.json();
-    if (data.Image) return data.Image;
-  } catch {}
+    const res = await fetch("https://pizzaedition.win/assets/mainstorage/", { mode: "cors" });
+    const html = await res.text();
+    const doc = new DOMParser().parseFromString(html, "text/html");
 
-  // 4. Fallback auto-generated icon
-  return `https://ui-avatars.com/api/?name=${encodeURIComponent(cleanName)}&background=111827&color=ffffff
+    return [...doc.querySelectorAll("a")]
+      .map(a => a.getAttribute("href"))
+      .filter(h => h && h.endsWith(".html"))
+      .map(h => ({
+        name: h.replace(".html", "").replace(/[-_]/g, " ").trim(),
+        url: "https://pizzaedition.win/assets/mainstorage/" + h,
+        icon: ""
+      }));
+  } catch {
+    return [];
+  }
+}
+
+/* Merge lists + remove duplicates */
+function mergeLists(lists) {
+  const map = new Map();
+  lists.flat().forEach(game => {
+    const key = game.name.toLowerCase().trim();
+    if (!map.has(key)) map.set(key, game);
+  });
+  return Array.from(map.values());
+}
+
+/* Display games using GN-Math UI */
+function displayMergedGames(games) {
+  if (typeof window.listZones !== "function") return;
+
+  window.zones = games.map((g, i) => ({
+    id: i,
+    name: g.name,
+    url: g.url,
+    icon: g.icon,
+    author: "JC Unblocked"
+  }));
+
+  listZones();
+}
+
+/* Main loader */
+async function updateGames() {
+  const lists = [];
+
+  // JSON sources
+  for (const url of SOURCES) {
+    lists.push(await fetchList(url));
+  }
+
+  // GitLab games
+  lists.push(await fetchGitLabGames());
+
+  // PizzaEdition games
+  lists.push(await fetchPizzaEditionGames());
+
+  const merged = mergeLists(lists);
+  displayMergedGames(merged);
+}
+
+/* Run now + auto-update every hour */
+updateGames();
+setInterval(updateGames, 60 * 60 * 1000);
+</script>
 
 
 <body class="dark-mode">
@@ -184,33 +247,6 @@ async function findIcon(name, url) {
     <script>
         navigator.serviceWorker.register(location.protocol + "//" + location.hostname + "/sw.js");
     </script>
-    <script>
-function displayMergedGames(games) {
-  // Force GN-Math to use OUR list
-  window.zones = games.map((g, i) => ({
-    id: i,
-    name: g.name,
-    url: g.url,
-    icon: g.icon,
-    author: "JC Unblocked"
-  }));
-
-  // Also update the search array
-  window.allZones = window.zones.map(z => ({ ...z }));
-
-  // Now refresh the UI
-  if (typeof window.listZones === "function") {
-    listZones();
-  } else {
-    console.warn("listZones() not ready yet");
-  }
-}
-</script>
-
 </body>
 </html>
-
-
-
-
 
