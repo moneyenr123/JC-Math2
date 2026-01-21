@@ -38,8 +38,7 @@
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#fb2651">
 </head>
-    <script>
-/* JSON sources */
+   <script>
 const SOURCES = [
   "https://cdn.jsdelivr.net/gh/gn-math/gn-math-DONTDMCA@main/games.json",
   "https://moneyenr123.github.io/JC-Unblocked-GameHub/mygames.json"
@@ -54,12 +53,38 @@ async function fetchList(url) {
 
     return data.map(g => ({
       name: g.name || g.title || g.slug || "Unknown",
-      icon: g.icon || g.thumbnail || g.img || "",
-      url: g.url || g.play_url || g.href || g.link || ""
+      icon: g.icon || "",
+      url: g.url || ""
     })).filter(g => g.url);
   } catch {
     return [];
   }
+}
+
+/* Auto-find an icon for a game */
+async function findIcon(name, url) {
+  const cleanName = name.replace(/[^a-z0-9]/gi, " ").trim();
+
+  // 1. Try your own icon folder
+  const localIcon = `https://moneyenr123.github.io/JC-Unblocked-GameHub/icons/${cleanName}.png`;
+
+  // 2. Try favicon of the domain
+  try {
+    const domain = new URL(url).hostname;
+    const favicon = `https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
+    return favicon;
+  } catch {}
+
+  // 3. DuckDuckGo image search API (safe, public)
+  const ddg = `https://api.duckduckgo.com/?q=${encodeURIComponent(cleanName + " game icon")}&format=json&pretty=1`;
+  try {
+    const res = await fetch(ddg);
+    const data = await res.json();
+    if (data.Image) return data.Image;
+  } catch {}
+
+  // 4. Fallback auto-generated icon
+  return `https://ui-avatars.com/api/?name=${encodeURIComponent(cleanName)}&background=111827&color=ffffff&size=128`;
 }
 
 /* SCRAPE GitLab GitHubGames */
@@ -69,33 +94,46 @@ async function fetchGitLabGames() {
     const html = await res.text();
     const doc = new DOMParser().parseFromString(html, "text/html");
 
-    return [...doc.querySelectorAll("a")]
+    const links = [...doc.querySelectorAll("a")]
+      .filter(a => a.href.includes("githubgames.gitlab.io"))
       .map(a => ({
         name: a.textContent.trim(),
-        url: a.href,
-        icon: ""
-      }))
-      .filter(g => g.url.includes("githubgames.gitlab.io"));
+        url: a.href
+      }));
+
+    // Add icons
+    for (const g of links) {
+      g.icon = await findIcon(g.name, g.url);
+    }
+
+    return links;
   } catch {
     return [];
   }
 }
 
-/* SCRAPE PizzaEdition.win */
+/* SCRAPE PizzaEdition.win WITH ICON LOOKUP */
 async function fetchPizzaEditionGames() {
   try {
     const res = await fetch("https://pizzaedition.win/assets/mainstorage/", { mode: "cors" });
     const html = await res.text();
     const doc = new DOMParser().parseFromString(html, "text/html");
 
-    return [...doc.querySelectorAll("a")]
+    const games = [...doc.querySelectorAll("a")]
       .map(a => a.getAttribute("href"))
       .filter(h => h && h.endsWith(".html"))
-      .map(h => ({
-        name: h.replace(".html", "").replace(/[-_]/g, " ").trim(),
-        url: "https://pizzaedition.win/assets/mainstorage/" + h,
-        icon: ""
-      }));
+      .map(h => {
+        const name = h.replace(".html", "").replace(/[-_]/g, " ").trim();
+        const url = "https://pizzaedition.win/assets/mainstorage/" + h;
+        return { name, url };
+      });
+
+    // Add icons
+    for (const g of games) {
+      g.icon = await findIcon(g.name, g.url);
+    }
+
+    return games;
   } catch {
     return [];
   }
@@ -130,22 +168,17 @@ function displayMergedGames(games) {
 async function updateGames() {
   const lists = [];
 
-  // JSON sources
   for (const url of SOURCES) {
     lists.push(await fetchList(url));
   }
 
-  // GitLab games
   lists.push(await fetchGitLabGames());
-
-  // PizzaEdition games
   lists.push(await fetchPizzaEditionGames());
 
   const merged = mergeLists(lists);
   displayMergedGames(merged);
 }
 
-/* Run now + auto-update every hour */
 updateGames();
 setInterval(updateGames, 60 * 60 * 1000);
 </script>
@@ -249,5 +282,6 @@ setInterval(updateGames, 60 * 60 * 1000);
     </script>
 </body>
 </html>
+
 
 
