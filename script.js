@@ -576,7 +576,7 @@ function cloakIcon(url) {
     const link = document.querySelector("link[rel~='icon']");
     link.rel = "icon";
     if ((url+"").trim().length === 0) {
-        link.href = "favicon.png";
+        link.href = "Icon.png";
     } else {
         link.href = url;
     }
@@ -584,7 +584,7 @@ function cloakIcon(url) {
 }
 function cloakName(string) {
     if ((string+"").trim().length === 0) {
-        document.title = "gn-math";
+        document.title = "JC Unblocked";
         return;
     }
     document.title = string;
@@ -624,8 +624,8 @@ function showContact() {
     document.getElementById('popupTitle').textContent = "Contact";
     const popupBody = document.getElementById('popupBody');
     popupBody.innerHTML = `
-    <p>Discord: https://discord.gg/NAFw4ykZ7n</p>
-    <p>Email: gn.math.business@gmail.com</p>`;
+    <p>Discord: https://discord.gg/aEfAs6Br</p>
+    <p>Email: Familylanzcreations@gmail.com</p>`;
     popupBody.contentEditable = false;
     document.getElementById('popupOverlay').style.display = "flex";
 }
@@ -636,10 +636,9 @@ function loadPrivacy() {
     popupBody.innerHTML = `
         <div style="max-height: 60vh; overflow-y: auto;">
             <h2>PRIVACY POLICY</h2>
-            <p>Last updated April 17, 2025</p>
-            <p>This Privacy Notice for gn-math ("we," "us," or "our"), describes how and why we might access, collect, store, use, and/or share ("process") your personal information when you use our services ("Services"), including when you:</p>
+            <p>This Privacy Notice for JC Unblocked ("we," "us," or "our"), describes how and why we might access, collect, store, use, and/or share ("process") your personal information when you use our services ("Services"), including when you:</p>
             <ul>
-                <li>Visit our website at <a href="https://gn-math.github.io">https://gn-math.github.io</a>, or any website of ours that links to this Privacy Notice</li>
+                <li>Visit our website at <a href="sites.google.com/view/jcunblockedio">sites.google.com/view/jcunblockedio</a>, or any website of ours that links to this Privacy Notice</li>
                 <li>Engage with us in other related ways, including any sales, marketing, or events</li>
             </ul>
             <p>Questions or concerns? Reading this Privacy Notice will help you understand your privacy rights and choices. We are responsible for making decisions about how your personal information is processed. If you do not agree with our policies and practices, please do not use our Services. If you still have any questions or concerns, please contact us at <a href="https://discord.gg/NAFw4ykZ7n">https://discord.gg/NAFw4ykZ7n</a>.</p>
@@ -674,25 +673,20 @@ function loadDMCA() {
     popupBody.innerHTML = `
         <div class="dmca-content">
             <p>
-                If you own or developed a game that is on <strong>gn-math</strong> 
+                If you own or developed a game that is on <strong>JC Unblocked</strong> 
                 and would like it removed, please do one of the following:
             </p>
             <ol>
                 <li>
-                    <a href="https://discord.gg/D4c9VFYWyU" target="_blank" rel="noopener noreferrer">
+                    <a href="https://discord.gg/aEfAs6Br" target="_blank" rel="noopener noreferrer">
                         Join the Discord
                     </a> and DM <strong>breadbb</strong> or ping me in a public channel 
                     <strong>[INSTANT RESPONSE]</strong>
                 </li>
                 <li>
-                    Email me at 
-                    <a href="mailto:gn.math.business@gmail.com">gn.math.business@gmail.com</a> 
-                    with the subject starting with <code>!DMCA</code>.
-                    <strong>[DELAYED RESPONSE]</strong>
                 </li>
             </ol>
             <p>
-                If you are going to do an email, please show proof you own the game before I have to ask.
             </p>
         </div>
     `;
@@ -734,3 +728,4 @@ HTMLCanvasElement.prototype.toDataURL = function (...args) {
     return "";
 
 };
+
