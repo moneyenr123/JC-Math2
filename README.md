@@ -1,5 +1,5 @@
 # to github:
-# PLEASE DONT DMCA THIS REPOSITORY, NO GAME ASSETS OR INTELLECTUAL PROPERTY IS HOSTED HERE, ALL FILES HERE ARE MADE, AND CODED BY, (genizy/breadbb)
+# PLEASE DONT DMCA THIS REPOSITORY, NO GAME ASSETS OR INTELLECTUAL PROPERTY IS HOSTED HERE, ALL FILES HERE ARE MADE, AND CODED BY, (genizy/breadbb) And Me Moneyenr123
 
 # sites.google.com/view/jcunblockedio
 JC Unblocked is the best unblocked games site to play at school.
@@ -27,6 +27,7 @@ JC Unblocked is the best unblocked games site to play at school.
 - static site so easily deployable
 - works in file:
 - custom software to get almost ANY game
+
 
 
 
