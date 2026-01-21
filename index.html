@@ -184,8 +184,32 @@ async function findIcon(name, url) {
     <script>
         navigator.serviceWorker.register(location.protocol + "//" + location.hostname + "/sw.js");
     </script>
+    <script>
+function displayMergedGames(games) {
+  // Force GN-Math to use OUR list
+  window.zones = games.map((g, i) => ({
+    id: i,
+    name: g.name,
+    url: g.url,
+    icon: g.icon,
+    author: "JC Unblocked"
+  }));
+
+  // Also update the search array
+  window.allZones = window.zones.map(z => ({ ...z }));
+
+  // Now refresh the UI
+  if (typeof window.listZones === "function") {
+    listZones();
+  } else {
+    console.warn("listZones() not ready yet");
+  }
+}
+</script>
+
 </body>
 </html>
+
 
 
 
